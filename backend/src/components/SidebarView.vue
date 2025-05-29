@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[200px] bg-indigo-700 text-gray-300 py-4 px-2">
+    <div class="w-[200px] transition-all bg-indigo-700 text-gray-300 py-4 px-2">
         <!-- this is the side bar  -->
         <router-link
             :to="{ name: 'app.dashboard' }"
@@ -11,7 +11,7 @@
             <span class="text-sm font-light">Dashboard</span>
         </router-link>
         <router-link
-            :to="{ name: '' }"
+            :to="{ name: 'app.products' }"
             class="flex items-center py-2 px-3 rounded hover:bg-black/30 transition-colors font-light mb-1"
         >
             <span class="mr-2">

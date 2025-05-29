@@ -5,6 +5,7 @@ import DashboardView from "../views/DashboardView.vue";
 import RequestPasswordReset from "../views/RequestPasswordReset.vue";
 import ResetPassword from "../views/ResetPassword.vue";
 import AppLayout from "../components/AppLayout.vue";
+import ProductsView from "../views/ProductsView.vue";
 
 const routes = [
     {
@@ -16,6 +17,11 @@ const routes = [
                 path: "dashboard",
                 name: "app.dashboard",
                 component: DashboardView,
+            },
+            {
+                path: "products",
+                name: "app.products",
+                component: ProductsView,
             },
         ],
     },

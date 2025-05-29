@@ -1,11 +1,13 @@
 <template>
     <div class="min-h-full flex">
         <!-- sidebar  -->
-        <SidebarView />
+        <SidebarView
+            :class="{ '-ml-50': !sidebarOpened, 'ml-0': sidebarOpened }"
+        />
         <!-- sidebar  -->
         <div class="flex-1">
             <!-- header  -->
-            <TopHeader />
+            <TopHeader @toggle-sidebar="toggleSidebar" />
             <!-- header  -->
 
             <!-- content here on main -->
@@ -18,12 +20,27 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from "vue";
 import SidebarView from "./SidebarView.vue";
 import TopHeader from "./TopHeader.vue";
 
 const { title } = defineProps({
     title: String,
 });
+
+const sidebarOpened = ref(true);
+function toggleSidebar() {
+    sidebarOpened.value = !sidebarOpened.value;
+}
+
+onMounted(() => {
+    handleSidebarOpened();
+    window.addEventListener("resize", handleSidebarOpened);
+});
+
+function handleSidebarOpened() {
+    sidebarOpened.value = window.outerWidth > 768;
+}
 </script>
 
 <style></style>
