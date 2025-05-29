@@ -7,6 +7,7 @@ import ResetPassword from "../views/ResetPassword.vue";
 import AppLayout from "../components/AppLayout.vue";
 import ProductsView from "../views/ProductsView.vue";
 import store from "../store";
+import NotFound from "../views/NotFound.vue";
 
 const routes = [
     {
@@ -57,7 +58,8 @@ const routes = [
     },
     {
         path: "/:pathMatch(.*)*",
-        redirect: "/login",
+        name: "nontFound",
+        component: NotFound,
     },
 ];
 const router = createRouter({
