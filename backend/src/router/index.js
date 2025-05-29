@@ -55,6 +55,10 @@ const routes = [
         },
         component: ResetPassword,
     },
+    {
+        path: "/:pathMatch(.*)*",
+        redirect: "/login",
+    },
 ];
 const router = createRouter({
     history: createWebHistory(),
