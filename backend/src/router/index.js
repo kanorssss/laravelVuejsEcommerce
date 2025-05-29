@@ -6,12 +6,17 @@ import RequestPasswordReset from "../views/RequestPasswordReset.vue";
 import ResetPassword from "../views/ResetPassword.vue";
 import AppLayout from "../components/AppLayout.vue";
 import ProductsView from "../views/ProductsView.vue";
+import store from "../store";
 
 const routes = [
     {
         path: "/app",
         name: "app",
         component: AppLayout,
+        //add this meta for the authentication
+        meta: {
+            requiresAuth: true,
+        },
         children: [
             {
                 path: "dashboard",
@@ -45,6 +50,14 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !store.state.user.null) {
+        next({ name: "login" });
+    } else {
+        next();
+    }
 });
 
 export default router;
