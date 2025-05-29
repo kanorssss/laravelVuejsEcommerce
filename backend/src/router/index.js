@@ -4,13 +4,22 @@ import LoginView from "../views/LoginView.vue";
 import DashboardView from "../views/DashboardView.vue";
 import RequestPasswordReset from "../views/RequestPasswordReset.vue";
 import ResetPassword from "../views/ResetPassword.vue";
+import AppLayout from "../components/AppLayout.vue";
 
 const routes = [
     {
-        path: "/dashboard",
-        name: "dashboard",
-        component: DashboardView,
+        path: "/app",
+        name: "app",
+        component: AppLayout,
+        children: [
+            {
+                path: "dashboard",
+                name: "app.dashboard",
+                component: DashboardView,
+            },
+        ],
     },
+
     {
         path: "/login",
         name: "login",
