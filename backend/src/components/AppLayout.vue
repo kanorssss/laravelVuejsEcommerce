@@ -39,7 +39,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    window.addEventListener("resize", handleSidebarOpened);
+    window.removeEventListener("resize", handleSidebarOpened);
 });
 
 function handleSidebarOpened() {
