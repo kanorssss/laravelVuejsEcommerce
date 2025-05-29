@@ -38,6 +38,10 @@ onMounted(() => {
     window.addEventListener("resize", handleSidebarOpened);
 });
 
+onUnmounted(() => {
+    window.addEventListener("resize", handleSidebarOpened);
+});
+
 function handleSidebarOpened() {
     sidebarOpened.value = window.outerWidth > 768;
 }
