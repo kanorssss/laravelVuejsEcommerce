@@ -1,11 +1,37 @@
 <script setup>
+import { ref } from "vue";
 import GuestLayouts from "../components/GuestLayouts.vue";
+import store from "../store";
+import router from "../router";
+
+let loading = ref(false);
+let errorMsg = ref("");
+
+const user = {
+    email: "",
+    password: "",
+    remember: false,
+};
+
+function submit() {
+    loading.value = true;
+    store
+        .dispatch("login", user)
+        .then(() => {
+            loading.value = false;
+            router.push({ name: "app.dashboard" });
+        })
+        .catch((error) => {
+            loading.value = false;
+            errorMsg.value = error.response.data.message;
+        });
+}
 </script>
 
 <template>
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <GuestLayouts title="Sign in to your account" />
-        <form class="space-y-6" action="#" method="POST">
+        <form @submit.prevent="submit">
             <div>
                 <label
                     for="email"
@@ -19,6 +45,7 @@ import GuestLayouts from "../components/GuestLayouts.vue";
                         id="email"
                         autocomplete="email"
                         required=""
+                        v-model="user.email"
                         class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
                 </div>
@@ -46,11 +73,27 @@ import GuestLayouts from "../components/GuestLayouts.vue";
                         id="password"
                         autocomplete="current-password"
                         required=""
+                        v-model="user.password"
                         class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
                 </div>
             </div>
-
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input
+                        id="remember_me"
+                        name="remember-me"
+                        type="checkbox"
+                        v-model="user.remember"
+                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    />
+                    <label
+                        for="remember_me"
+                        class="ml-2 block text-sm text-gray-900"
+                        >Remember me</label
+                    >
+                </div>
+            </div>
             <div>
                 <button
                     type="submit"

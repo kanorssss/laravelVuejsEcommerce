@@ -69,7 +69,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const isAuthenticated = !!store.state.user.token;
-
+    //check if the user is authenticated
     if (to.meta.requiresAuth && !isAuthenticated) {
         next({ name: "login" });
     } else if (to.meta.requiredGuest && isAuthenticated) {
