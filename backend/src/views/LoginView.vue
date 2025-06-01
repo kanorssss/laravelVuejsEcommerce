@@ -78,7 +78,8 @@ function submit() {
                     />
                 </div>
             </div>
-            <div class="flex items-center justify-between">
+
+            <div class="flex items-center justify-between mt-4">
                 <div class="flex items-center">
                     <input
                         id="remember_me"
@@ -94,9 +95,15 @@ function submit() {
                     >
                 </div>
             </div>
-            <div>
+
+            <div class="mt-4">
                 <button
+                    :disabled="loading"
                     type="submit"
+                    :class="{
+                        'cursor-not-allow': loading,
+                        'opacity-50': loading,
+                    }"
                     class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                     Sign in
