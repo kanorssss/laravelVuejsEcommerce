@@ -1,5 +1,13 @@
 import axiosClient from "../axios.js";
 
+//getUser
+export function getUser({ commit }) {
+    return axiosClient.get("user").then(({ response }) => {
+        commit("setUser", response.data);
+        return response.data;
+    });
+}
+
 // login action function
 export function login({ commit }, user) {
     return axiosClient.post("login", user).then(({ data }) => {
@@ -21,4 +29,5 @@ export function logout({ commit }) {
 export default {
     login,
     logout,
+    getUser,
 };

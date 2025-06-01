@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import * as actions from "./actions.js";
 import * as mutations from "./mutations.js";
-import { login, logout } from "./actions.js";
+import { login, logout, getUser } from "./actions.js";
 import { setUser, setToken } from "./mutations.js";
 
 const store = createStore({
@@ -16,6 +16,7 @@ const store = createStore({
     actions: {
         login,
         logout,
+        getUser,
     },
     //mutations functions
     mutations: {
