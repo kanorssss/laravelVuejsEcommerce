@@ -15,7 +15,7 @@
                         alt=""
                         class="rounded-full w-8 mr-2"
                     />
-                    <small>Airon Jim</small>
+                    <small>{{ currentUser.name }}</small>
                     <ChevronDownIcon
                         class="h-5 w-5 text-violet-200 hover:text-violet-100"
                         aria-hidden="tr8"
@@ -90,9 +90,21 @@ import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import store from "../store";
 import router from "../router";
+import { computed, onMounted } from "vue";
 
 //emit toggle to the parent omponent
 const emit = defineEmits(["toggle-sidebar"]);
+
+const currentUser = computed(() => store.state.user.data);
+// Fetch user data when the component is mounted if meron na siyang token
+onMounted(() => {
+    if (store.state.user.token) {
+        store.dispatch("getUser").catch((error) => {
+            store.commit("setToken", null);
+            store.commit("setUser", {});
+        });
+    }
+});
 
 function logout() {
     store.dispatch("logout").then(() => {

@@ -17,7 +17,7 @@ axiosClient.interceptors.response.use(
     },
     (error) => {
         if (error.response.status === 401) {
-            sessionStorage.removeItem("TOKEN");
+            sessionStorage.removeItem("token");
             router.push({ name: "login" });
         }
         //throw the error
