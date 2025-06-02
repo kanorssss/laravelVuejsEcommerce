@@ -95,8 +95,8 @@ import { computed, onMounted } from "vue";
 //emit toggle to the parent omponent
 const emit = defineEmits(["toggle-sidebar"]);
 
-const currentUser = computed(() => store.state.user.data);
 // Fetch user data when the component is mounted if meron na siyang token
+const currentUser = computed(() => store.state.user.data);
 onMounted(() => {
     if (store.state.user.token) {
         store.dispatch("getUser").catch((error) => {
@@ -105,6 +105,7 @@ onMounted(() => {
         });
     }
 });
+//end
 
 function logout() {
     store.dispatch("logout").then(() => {
