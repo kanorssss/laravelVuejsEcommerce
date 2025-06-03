@@ -9,6 +9,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProducResource;
 use App\Http\Resources\ProductListResource;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -27,7 +28,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         // Validate the request and create a new product
-        return new ProducResource(Product::create($request->validated()));
+        return new ProductResource(Product::create($request->validated()));
     }
 
     /**
@@ -36,7 +37,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //        // Return a single product using the ProducResource
-        return new ProducResource($product);
+        return new ProductResource($product);
     }
 
     /**
@@ -47,7 +48,7 @@ class ProductController extends Controller
         // Validate the request and update the product
         $product->update($request->validated());
         // Return the updated product using the ProducResource
-        return new ProducResource($product);
+        return new ProductResource($product);
     }
 
     /**

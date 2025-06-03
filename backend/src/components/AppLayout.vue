@@ -1,5 +1,6 @@
 <template>
     <div class="min-h-full flex">
+        <SpinnerView />
         <!-- sidebar  -->
         <SidebarView
             :class="{ '-ml-50': !sidebarOpened, 'ml-0': sidebarOpened }"
