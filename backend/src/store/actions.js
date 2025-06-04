@@ -20,14 +20,31 @@ export function login({ commit }, user) {
 //logout action function
 export function logout({ commit }) {
     return axiosClient.post("logout").then(({ data }) => {
-        //
         commit("setToken", null);
         return data;
     });
+}
+
+// getProducts
+export function getProducts({ commit }) {
+    //set loading to true and empty products from mutation
+    commit("setProducts", [true, []]);
+    //fetch products from the server
+    return axiosClient
+        .get("/products")
+        .then((res) => {
+            // if the request is successful, set loading to false and set products
+            commit("setProducts", [false, res.data]);
+        })
+        .catch(() => {
+            // if there is an error, set loading to false and empty products
+            commit("setProducts", [false, []]);
+        });
 }
 
 export default {
     login,
     logout,
     getUser,
+    getProducts,
 };

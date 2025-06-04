@@ -7,6 +7,7 @@ const state = {
         token: sessionStorage.getItem("token"),
         data: {},
     },
+    // table products
     products: {
         loading: false,
         data: [],

@@ -15,5 +15,4 @@ Route::middleware('auth:sanctum')->group(function () {
     // This will automatically create routes for index, store, show, update, and destroy methods
     Route::apiResource('/products', ProductController::class);
 });
-
 Route::post('login', [AuthController::class, 'login']);
