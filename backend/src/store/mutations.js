@@ -14,9 +14,32 @@ export function setToken(state, token) {
     }
 }
 
-export function setProducts(state, [loading, response = {}]) {
+export function setProducts(state, [loading, response = null]) {
+    //check if the response exist
+    if (response && response.meta) {
+        state.products = {
+            data: response.data || [],
+            links: response.meta.links || [],
+            total: response.meta.total || 0,
+            limit: response.meta.per_page || 0,
+            from: response.meta.from || 0,
+            to: response.meta.to || 0,
+            page: response.meta.current_page || 1,
+        };
+    } else {
+        // Set to empty/default values to avoid rendering errors in frontend
+        state.products = {
+            data: [],
+            links: [],
+            total: 0,
+            limit: 0,
+            from: 0,
+            to: 0,
+            page: 1,
+        };
+    }
+
     state.products.loading = loading;
-    state.products.data = response.data;
 }
 
 export default {

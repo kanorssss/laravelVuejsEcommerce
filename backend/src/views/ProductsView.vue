@@ -91,6 +91,44 @@
                 </tbody>
             </table>
             <SpinnerView v-if="products.loading" />
+            <!-- pagination -->
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center mt-6 space-y-4 sm:space-y-0"
+            >
+                <span v-if="products.total > 0" class="text-gray-600 text-sm">
+                    Showing from {{ products.from }} to {{ products.to }} of
+                    {{ products.total }} results
+                </span>
+
+                <nav
+                    v-if="products.total > products.to"
+                    class="inline-flex -space-x-px text-sm shadow-sm"
+                    aria-label="Pagination"
+                >
+                    <a
+                        v-for="(link, i) in products.links"
+                        :key="i"
+                        href="#"
+                        @click.prevent="getForPage($event, link)"
+                        v-html="link.label"
+                        :disabled="!link.url"
+                        :aria-current="link.active ? 'page' : null"
+                        :class="[
+                            'px-3 py-2 border text-sm font-medium',
+                            link.active
+                                ? 'z-10 bg-blue-600 border-blue-600 text-white'
+                                : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-100',
+                            i === 0 ? 'rounded-l-md' : '',
+                            i === products.links.length - 1
+                                ? 'rounded-r-md'
+                                : '',
+                            !link.url ? 'cursor-not-allowed opacity-50' : '',
+                        ]"
+                    />
+                </nav>
+            </div>
+
+            <!-- pagination -->
         </div>
 
         <!-- Spinner (show when loading) -->
@@ -112,7 +150,18 @@ onMounted(() => {
     getProducts();
 });
 // Function to fetch products from the store
-function getProducts() {
-    store.dispatch("getProducts");
+//accept the url on pagination
+function getProducts(url = null) {
+    store.dispatch("getProducts", { url });
+}
+
+// Function to handle pagination
+function getForPage(ev, link) {
+    if (!link.url || link.active) {
+        ev.preventDefault(); // Prevent default action if no URL or already active
+        return; // If there's no URL, do nothing
+    }
+
+    getProducts(link.url);
 }
 </script>

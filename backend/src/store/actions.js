@@ -26,12 +26,13 @@ export function logout({ commit }) {
 }
 
 // getProducts
-export function getProducts({ commit }) {
+export function getProducts({ commit }, { url = null }) {
     //set loading to true and empty products from mutation
     commit("setProducts", [true, []]);
     //fetch products from the server
+    url = url || "/products";
     return axiosClient
-        .get("/products")
+        .get(url)
         .then((res) => {
             // if the request is successful, set loading to false and set products
             commit("setProducts", [false, res.data]);
