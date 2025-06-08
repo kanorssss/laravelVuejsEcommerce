@@ -26,13 +26,22 @@ export function logout({ commit }) {
 }
 
 // getProducts
-export function getProducts({ commit }, { url = null }) {
+export function getProducts(
+    { commit },
+    { url = null, search = "", perPage = 10 }
+) {
     //set loading to true and empty products from mutation
     commit("setProducts", [true, []]);
     //fetch products from the server
     url = url || "/products";
     return axiosClient
-        .get(url)
+        .get(url, {
+            params: {
+                //add search and perpage for the backend
+                search,
+                per_page: perPage,
+            },
+        })
         .then((res) => {
             // if the request is successful, set loading to false and set products
             commit("setProducts", [false, res.data]);

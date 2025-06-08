@@ -18,8 +18,17 @@ class ProductController extends Controller
      */
     public function index()
     {
+
+        $search = request('search', false);
+        $perPage = request('per_page', 10);
+        $query = Product::query();
+        //if search is available
+        if ($search) {
+            $query->where('title', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%");
+        }
         // Return a paginated list of products using the ProductListResource that appear frontend
-        return ProductListResource::collection(Product::query()->paginate(10));
+        return ProductListResource::collection($query->paginate($perPage));
     }
 
     /**
