@@ -1,16 +1,5 @@
 <template>
     <div class="p-6">
-        <!-- Header section with title and button -->
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-4xl font-bold">Products</h1>
-            <button
-                type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
-            >
-                Add new Product
-            </button>
-        </div>
-
         <!-- Controls section -->
         <div class="flex items-center gap-4 mb-6">
             <div class="flex items-center gap-2">
@@ -157,16 +146,14 @@
 
             <!-- pagination -->
         </div>
-
-        <!-- Spinner (show when loading) -->
     </div>
 </template>
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import store from "../store/index.js";
-import SpinnerView from "../components/CORE/SpinnerView.vue";
-import { PRODUCTS_PER_PAGE } from "../constants.js";
-import TableHeadingCell from "../components/CORE/Table/TableHeadingCell.vue";
+import store from "../../store/index.js";
+import SpinnerView from "../../components/CORE/SpinnerView.vue";
+import { PRODUCTS_PER_PAGE } from "../../constants.js";
+import TableHeadingCell from "../../components/CORE/Table/TableHeadingCell.vue";
 
 //working for products table
 const perPage = ref(PRODUCTS_PER_PAGE);
