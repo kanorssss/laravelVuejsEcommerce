@@ -41,34 +41,60 @@
             <table class="w-full">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th
+                        <TableHeadingCell
+                            @click="sortProduct"
                             class="text-left py-4 px-6 font-semibold text-gray-700"
+                            field="id"
+                            :sort-field="sortField"
+                            :sort-direction="sortDirection"
                         >
                             ID
-                        </th>
-                        <th
+                        </TableHeadingCell>
+                        <TableHeadingCell
                             class="text-left py-4 px-6 font-semibold text-gray-700"
+                            field=""
+                            :sort-field="sortField"
+                            :sort-direction="sortDirection"
                         >
                             Image
-                        </th>
-                        <th
+                        </TableHeadingCell>
+                        <TableHeadingCell
+                            @click="sortProduct"
                             class="text-left py-4 px-6 font-semibold text-gray-700"
+                            field="title"
+                            :sort-field="sortField"
+                            :sort-direction="sortDirection"
                         >
                             Title
-                        </th>
-                        <th
+                        </TableHeadingCell>
+                        <TableHeadingCell
+                            @click="sortProduct"
                             class="text-left py-4 px-6 font-semibold text-gray-700"
+                            field="price"
+                            :sort-field="sortField"
+                            :sort-direction="sortDirection"
                         >
                             Price
-                        </th>
-                        <th
+                        </TableHeadingCell>
+                        <TableHeadingCell
+                            @click="sortProduct"
                             class="text-left py-4 px-6 font-semibold text-gray-700"
+                            field="updated_at"
+                            :sort-field="sortField"
+                            :sort-direction="sortDirection"
                         >
                             Updated At
-                        </th>
+                        </TableHeadingCell>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="products.loading">
+                    <tr>
+                        <td colspan="5">
+                            <SpinnerView class="my-4" v-if="products.loading" />
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody v-else>
                     <!-- LOOP PRODUCT TO DISPLAY ITEMS  -->
                     <!-- <tr
                         class="border-t border-gray-200"
@@ -91,10 +117,10 @@
                     <!-- Add more rows as needed -->
                 </tbody>
             </table>
-            <SpinnerView v-if="products.loading" />
+            <!-- <SpinnerView class="my-4" v-if="products.loading" /> -->
             <!-- pagination -->
             <div
-                class="flex flex-col sm:flex-row justify-between items-center mt-6 space-y-4 sm:space-y-0"
+                class="flex flex-col sm:flex-row justify-between items-center mt-10 space-y-4 sm:space-y-0 my-5"
             >
                 <span v-if="products.total > 0" class="text-gray-600 text-sm">
                     Showing from {{ products.from }} to {{ products.to }} of
@@ -140,12 +166,17 @@ import { computed, onMounted, ref } from "vue";
 import store from "../store/index.js";
 import SpinnerView from "../components/CORE/SpinnerView.vue";
 import { PRODUCTS_PER_PAGE } from "../constants.js";
+import TableHeadingCell from "../components/CORE/Table/TableHeadingCell.vue";
 
 //working for products table
 const perPage = ref(PRODUCTS_PER_PAGE);
 const search = ref("");
 
 const products = computed(() => store.state.products);
+//sortField
+const sortField = ref("updated_at");
+const sortDirection = ref("desc");
+
 //register or create getProducts on action.js
 onMounted(() => {
     getProducts();
@@ -158,6 +189,8 @@ function getProducts(url = null) {
         url,
         search: search.value,
         perPage: perPage.value,
+        sortField: sortField.value,
+        sortDirection: sortDirection.value,
     });
 }
 
@@ -169,5 +202,19 @@ function getForPage(ev, link) {
     }
 
     getProducts(link.url);
+}
+
+// Function to sort products
+function sortProduct(field) {
+    if (sortField.value === field) {
+        // toggle direction
+        sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
+    } else {
+        sortField.value = field;
+        sortDirection.value = "asc"; // default to ascending if a new field is selected
+    }
+    // Call getProducts to apply sorting
+    // Note: This assumes your backend supports sorting based on the field and direction
+    getProducts();
 }
 </script>

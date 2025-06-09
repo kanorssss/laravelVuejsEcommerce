@@ -28,7 +28,13 @@ export function logout({ commit }) {
 // getProducts
 export function getProducts(
     { commit },
-    { url = null, search = "", perPage = 10 }
+    {
+        url = null,
+        search = "",
+        perPage = 10,
+        sortField = "updated_at",
+        sortDirection = "desc",
+    }
 ) {
     //set loading to true and empty products from mutation
     commit("setProducts", [true, []]);
@@ -40,6 +46,8 @@ export function getProducts(
                 //add search and perpage for the backend
                 search,
                 per_page: perPage,
+                sort_field: sortField,
+                sort_direction: sortDirection,
             },
         })
         .then((res) => {
