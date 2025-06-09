@@ -1,7 +1,7 @@
 import axiosClient from "../axios.js";
 
 //getUser
-export function getUser({ commit }) {
+export async function getUser({ commit }) {
     return axiosClient.get("/user").then(({ data }) => {
         commit("setUser", data);
         return data;
@@ -9,7 +9,7 @@ export function getUser({ commit }) {
 }
 
 // login action function
-export function login({ commit }, user) {
+export async function login({ commit }, user) {
     return axiosClient.post("login", user).then(({ data }) => {
         commit("setUser", data.user);
         commit("setToken", data.token);
@@ -18,7 +18,7 @@ export function login({ commit }, user) {
 }
 
 //logout action function
-export function logout({ commit }) {
+export async function logout({ commit }) {
     return axiosClient.post("logout").then(({ data }) => {
         commit("setToken", null);
         return data;
@@ -26,7 +26,7 @@ export function logout({ commit }) {
 }
 
 // getProducts
-export function getProducts(
+export async function getProducts(
     { commit },
     {
         url = null,

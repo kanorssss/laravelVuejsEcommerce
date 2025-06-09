@@ -1,8 +1,8 @@
-export function setUser(state, user) {
+export async function setUser(state, user) {
     // set the user data from store/index.js stae
     state.user.data = user;
 }
-export function setToken(state, token) {
+export async function setToken(state, token) {
     state.user.token = token;
     //check if the token is exist
     if (token) {
@@ -14,7 +14,7 @@ export function setToken(state, token) {
     }
 }
 
-export function setProducts(state, [loading, response = null]) {
+export async function setProducts(state, [loading, response = null]) {
     //check if the response exist
     if (response && response.meta) {
         state.products = {

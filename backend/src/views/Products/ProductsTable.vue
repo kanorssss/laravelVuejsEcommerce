@@ -170,15 +170,19 @@ onMounted(() => {
 });
 // Function to fetch products from the store
 //accept the url on pagination
-function getProducts(url = null) {
-    console.log(perPage.value, search.value);
-    store.dispatch("getProducts", {
-        url,
-        search: search.value,
-        perPage: perPage.value,
-        sortField: sortField.value,
-        sortDirection: sortDirection.value,
-    });
+async function getProducts(url = null) {
+    try {
+        console.log(perPage.value, search.value);
+        await store.dispatch("getProducts", {
+            url,
+            search: search.value,
+            perPage: perPage.value,
+            sortField: sortField.value,
+            sortDirection: sortDirection.value,
+        });
+    } catch (error) {
+        console.error("Failed to fetch products:", error);
+    }
 }
 
 // Function to handle pagination
