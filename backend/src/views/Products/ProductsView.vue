@@ -15,7 +15,7 @@
         <!-- Spinner (show when loading) -->
     </div>
     <!--   binding the modal to the showModal ref-->
-    <ProductModal v-model="showModal" />
+    <ProductModal v-model="showModal" :product="productModal" />
 </template>
 <script setup>
 import ProductsTable from "./ProductsTable.vue";
@@ -24,6 +24,14 @@ import { ref } from "vue";
 
 //showProductModal function
 const showModal = ref(false);
+// Define ProductModal
+const productModal = ref({
+    id: null,
+    title: "",
+    description: "",
+    price: 0,
+    image: null,
+});
 
 function showProductModal() {
     showModal.value = true;
