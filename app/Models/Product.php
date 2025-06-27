@@ -23,4 +23,17 @@ class Product extends Model
             ->generateSlugsFrom('title') // Specify the attribute to generate the slug from
             ->saveSlugsTo('slug');
     }
+
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'image',
+        'slug',
+        'image_mime',
+        'created_by',
+        'updated_by',
+        'image_size'
+
+    ];
 }

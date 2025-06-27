@@ -10,6 +10,9 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProducResource;
 use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -44,8 +47,25 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        // Validate the request and create a new product
-        return new ProductResource(Product::create($request->validated()));
+        dd(request()->all()); // Debug dump the request data
+        $data = $request->validated();
+        $data['created_by'] = $request->user()->id;
+        $data['updated_by'] = $request->user()->id;
+
+        //take image from request
+        $image = $data['image'] ?? null;
+        //check if the image already exists
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['image'] = URL::to(Storage::url($relativePath));
+            $data['image_mime'] = $image->getClientMimeType();
+            $data['image_size'] = $image->getSize();
+        }
+
+        //after the logic is already done, create the product
+        $product = Product::create($data);
+        // Return the created product using the ProducResource
+        return new ProductResource($product);
     }
 
     /**
@@ -53,7 +73,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //        // Return a single product using the ProducResource
+        // Return a single product using the ProducResource
         return new ProductResource($product);
     }
 
@@ -77,5 +97,24 @@ class ProductController extends Controller
         $product->delete();
         // Return a no content response on successful deletion
         return response()->noContent();
+    }
+
+    /**
+     * Save the image to storage and return the relative path.
+     */
+    private function saveImage($image)
+    {
+        // Validate the image file
+        $path = '/images' . Str::random();
+        // Check if the directory exists, if not create it
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path);
+        }
+        // Check if the image is valid
+        if (!Storage::putFileAs('public/' . $path, $image, $image->getClientOriginalName())) {
+            throw new \Exception('Unable to Save file \"' . $image->getClientOriginalName() . '\"');
+        }
+        // Return the relative path of the saved image
+        return $path . '/' . $image->getClientOriginalName();
     }
 }

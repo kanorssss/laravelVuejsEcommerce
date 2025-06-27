@@ -123,6 +123,7 @@ import {
 
 import store from "../../store/index.js"; // Import the store to dispatch actions
 import CustomInput from "../../components/CORE/CustomInput.vue"; // Import the custom input component
+import SpinnerView from "../../components/CORE/SpinnerView.vue";
 
 // Import necessary components from Headless UI for the submit modal
 const loading = ref(false);

@@ -60,9 +60,47 @@ export async function getProducts(
         });
 }
 
+export async function createProduct({ commit }, product) {
+    //if the user not select an image this loop not run
+    if (product.image instanceof File) {
+        const form = new FormData();
+        formData.append("title", product.title);
+        formData.append("image", product.image);
+        formData.append("description", product.description);
+        formData.append("price", product.price);
+        //set the form to product
+        product = form;
+    }
+    return axiosClient.post("/products", product);
+}
+
+export async function updateProduct({ commit }, { product }) {
+    const id = product.id;
+    //if the user not select an image this loop not run
+    // if the user selects an image, we need to append it to the form data
+    // and set the method to PUT
+    if (product.image instanceof File) {
+        const form = new FormData();
+        formData.append("id", product.id);
+        formData.append("title", product.title);
+        formData.append("image", product.image);
+        formData.append("description", product.description);
+        formData.append("price", product.price);
+        formData.append("_method", "PUT");
+        //set the form to product
+        product = form;
+    } else {
+        product._method = "PUT"; // for laravel to know it's an update request
+    }
+    // send the request to update the product
+    return axiosClient.post(`/products/${id}`, product);
+}
+
 export default {
     login,
     logout,
     getUser,
     getProducts,
+    createProduct,
+    updateProduct,
 };
